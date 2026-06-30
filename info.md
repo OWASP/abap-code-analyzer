@@ -1,18 +1,15 @@
-### ABAP Code Scanner Information
-* [Incubator Project](https://owasp.org/www-project-abap-code-analyzer/)
-* [Type of Project: Tool](https://owasp.org/projects/)
-* [Version 0.1.0](#)
-* [GitHub Repository](https://github.com/redrays-io/ABAP-Code-Analyzer)
+### About
+* [Incubator Project](https://owasp.org/projects/)
+* [Tool Project](https://owasp.org/www-community/Source_Code_Analysis_Tools)
+* [Latest release: v0.1.0](https://github.com/OWASP/abap-code-scanner/releases)
 
-### Downloads or Social Links
-* [ABAP Code Scanner](https://redrays.io/abap-code-scanner-framework/)
-* [SAP Security Scanner](https://redrays.io/redrays-security-platform-for-sap-consultants/)
-* [SAP Penetration Testing](https://redrays.io/sap-penetration-testing)
-* [RedRays LinkedIn](https://www.linkedin.com/company/redrays)
-* [GitHub Discussions](https://github.com/OWASP/abap-code-analyzer/discussions)
+### Project Resources
+* [Source Code](https://github.com/OWASP/abap-code-scanner)
+* [Issue Tracker](https://github.com/OWASP/abap-code-scanner/issues)
+* [Change Log / Releases](https://github.com/OWASP/abap-code-scanner/releases)
 
-### Code Repository
-* [GitHub Repository](https://github.com/OWASP/abap-code-analyzer)
+### Project Leader
+* [Vahagn Vardanian](https://www.linkedin.com/in/vahagnv/)
 
-### Change Log
-* [Releases](https://github.com/redrays-io/ABAP-Code-Analyzer)
+### Related
+* [RedRays SAP Security](https://redrays.io/)

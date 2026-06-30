@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="OWASP ABAP Code Scanner">
+  <rect x="4" y="4" width="120" height="120" rx="26" fill="#101820"/>
+  <rect x="4" y="4" width="120" height="120" rx="26" fill="none" stroke="#2bb3a3" stroke-width="2" opacity="0.5"/>
+  <!-- magnifying glass -->
+  <circle cx="56" cy="52" r="24" fill="none" stroke="#2bb3a3" stroke-width="7"/>
+  <line x1="74" y1="70" x2="96" y2="92" stroke="#2bb3a3" stroke-width="9" stroke-linecap="round"/>
+  <!-- code brackets inside the lens -->
+  <text x="56" y="60" font-family="'SFMono-Regular',Consolas,monospace" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">&lt;/&gt;</text>
+  <!-- wordmark -->
+  <text x="64" y="116" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="800" letter-spacing="2" fill="#ffffff" text-anchor="middle">ABAP</text>
+</svg>

@@ -1,0 +1,32 @@
+name: New security check
+description: Suggest a new ABAP vulnerability or code-quality check
+labels: [enhancement, check]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Check name
+      placeholder: e.g. CheckOpenSqlInjection
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What should it detect?
+      description: Describe the vulnerability pattern and why it matters.
+    validations:
+      required: true
+  - type: textarea
+    id: vulnerable
+    attributes:
+      label: Example of vulnerable ABAP
+      render: abap
+  - type: textarea
+    id: safe
+    attributes:
+      label: Example of safe ABAP
+      render: abap
+  - type: input
+    id: reference
+    attributes:
+      label: Reference (OWASP / SAP note / CWE)

@@ -1,0 +1,29 @@
+name: Bug report
+description: Report a crash, wrong result, or false positive in the scanner
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you run, and what went wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: abap-snippet
+    attributes:
+      label: Minimal ABAP snippet (if a false positive / false negative)
+      description: The smallest piece of ABAP that reproduces the issue.
+      render: abap
+  - type: input
+    id: version
+    attributes:
+      label: Scanner version / commit
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version and OS
+    validations:
+      required: true

@@ -1,99 +1,80 @@
-# ABAP Code Scanner
+<div align="center">
 
-## 🚀 **New Generation Released!**
+<img src="assets/images/logo.svg" alt="OWASP ABAP Code Scanner" width="112">
 
-We are thrilled to announce the **next generation** of the **ABAP Code Scanner**, featuring enhanced capabilities and better performance for identifying security vulnerabilities, coding errors, and potential performance issues in your ABAP (Advanced Business Application Programming) code. This version is a major upgrade that provides deeper analysis and more accurate results. Get started now and elevate your code security with the latest improvements.
+# OWASP ABAP Code Scanner
 
-For more details and to use the tool directly, visit the official [ABAP Code Scanner page](https://redrays.io/abap-scanner/).
+**Static Application Security Testing (SAST) for SAP ABAP.**
+Find security vulnerabilities in custom ABAP code - from a free open-source CLI to a web scanner that connects directly to your SAP systems.
 
-## Overview
+[![OWASP Incubator](https://img.shields.io/badge/OWASP-Incubator-blue.svg)](https://owasp.org/projects/)
+[![License: MIT](https://img.shields.io/github/license/OWASP/abap-code-scanner)](LICENSE)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
+[![Stars](https://img.shields.io/github/stars/OWASP/abap-code-scanner?style=social)](https://github.com/OWASP/abap-code-scanner/stargazers)
+[![Issues](https://img.shields.io/github/issues/OWASP/abap-code-scanner)](https://github.com/OWASP/abap-code-scanner/issues)
 
-The ABAP Code Scanner is a powerful tool designed to analyze ABAP (Advanced Business Application Programming) code for potential security vulnerabilities, code quality issues, and best practice violations. This provides a flexible and extensible way to scan ABAP code and generate comprehensive reports on various aspects of code security and quality.
+</div>
 
-## Features
+---
 
-- Multiple security checks including:
-  - Cross-Site Scripting (XSS) vulnerabilities
-  - Directory Traversal vulnerabilities
-  - Hardcoded credentials
-  - Weak cryptographic algorithms
-  - And many more...
-- Customizable and extensible architecture
-- Command-line interface for easy integration into CI/CD pipelines
-- Detailed reporting in XLSX format
-- Configurable scan settings
+## Editions
 
-## Upcoming Feature: Dataflow Analysis
+| Edition | What it is | Where |
+|---|---|---|
+| **Web (newest)** | Web-based ABAP SAST that connects to SAP over JCo / RFC | [Below](#web-version-abap-sast) |
+| **Cloud (SAP BTP)** | SaaS that reads ABAP over BTP destinations | [btp-edition.md](btp-edition.md) |
+| **Open-source CLI** | Free, MIT tool for scanning exported ABAP locally or in CI | [Below](#open-source-cli) |
 
-We are excited to announce that we are working on implementing a dataflow analysis feature. This enhancement will significantly improve the accuracy and depth of our security scans.
+## Web version: ABAP SAST
 
-### What is Dataflow Analysis?
+The newest version runs as a web application and **connects directly to your SAP systems over SAP JCo (RFC)** - no manual export. It:
 
-Dataflow analysis is a technique used to track how data moves through an application. In the context of security, it helps identify how potentially tainted data (e.g., user inputs) propagates through the system and whether it reaches sensitive sinks (e.g., database queries, output functions) without proper sanitization.
+- organises scans into **projects** (target systems + scan profiles such as *OWASP Top 10* or *Critical issues only*);
+- runs **scheduled scans**;
+- ranks findings by **severity** and **CVSS**, each with a **confidence score** and a plain-language **explanation**;
+- supports **cross-system retest** with full history;
+- exports **reports** for triage and audit;
+- uses **single sign-on and role-based access control**.
 
-### Planned Functionality
+<div align="center">
+  <img src="assets/images/mc/01-projects.png" alt="ABAP SAST - projects overview" width="760">
+  <img src="assets/images/mc/04-finding-detail.png" alt="Finding detail" width="760">
+</div>
 
-Our dataflow analysis will:
+> The web version is a commercial product by [RedRays](https://redrays.io/). Request a demo or trial at [redrays.io/abap-scanner](https://redrays.io/abap-scanner/).
 
-- Track parameters and their contents from the beginning of functions, reports, forms, includes, or other ABAP structures.
-- Follow the data as it flows through the code, monitoring transformations and assignments.
-- Identify potential injection points where tainted data might be used unsafely.
-- Provide more accurate and context-aware vulnerability detection.
+## Open-source CLI
 
-This feature will enable the to:
-- Reduce false positives by understanding the context and transformations of data.
-- Detect complex vulnerabilities that simple pattern matching might miss.
-- Offer more detailed and actionable reports on potential security issues.
+The free, MIT-licensed CLI is the heart of this OWASP project. It statically analyses **exported** ABAP source **offline** - no SAP connection, no agent, no telemetry - and writes an XLSX report you can act on. Drop it into CI to gate pull requests.
 
-## Advanced Private Version
+### Quick start
 
-We are excited to announce that a more advanced version of the ABAP Code Scanner is available as private software. This enhanced version includes:
+> Requires **Python 3.9+** and `pip`.
 
-- Over 250 security checks for comprehensive code analysis
-- Additional reporting formats and integration options
-- Priority support and regular updates
+```bash
+git clone https://github.com/OWASP/abap-code-scanner.git
+cd abap-code-scanner
+pip install -r requirements.txt
 
-For more information about the advanced private version, please contact RedRays, Inc. at support@redrays.io.
-
-## Prerequisites
-
-- Python 3.9 or higher
-- pip (Python package installer)
-
-## Installation
-
-1. Clone the repository:
-   ```
-   git clone https://github.com/redrays-io/ABAP-Code-Analyzer.git
-   cd ABAP-Code-Analyzer
-   ```
-
-2. Install the required dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-
-## Usage
-
-To run the ABAP Code Scanner:
-
-```
-python main.py path/to/abap/code/dir
+python main.py path/to/abap/source
 ```
 
-Optional arguments:
-- `-c`, `--config`: Path to the configuration file (default: config.yml)
+When the scan finishes you will find **`abap_security_scan_report.xlsx`** in the project folder:
 
-## Report
-When the program finishes successfully, you will find the abap_security_scan_report.xlsx file in the project folder. 
-Below, you can see an example of the report file.
-![report example](assets/images/screenshot.png)
+<div align="center">
+  <img src="assets/images/screenshot.png" alt="Example XLSX report" width="760">
+</div>
 
-## Configuration
+### CLI options
 
-The scanner can be configured using a YAML file. By default, it looks for `config.yml` in the project root. You can specify a different configuration file using the `-c` or `--config` option.
+| Option | Description | Default |
+|---|---|---|
+| `path` | Directory of ABAP source to scan | _(required)_ |
+| `-c`, `--config` | Path to the YAML config file | `config.yml` |
 
-Example configuration:
+### Configuration
+
+The scanner reads a YAML file (default `config.yml`, override with `-c`). Pick the checks to run, the file extensions to include, and patterns to exclude:
 
 ```yaml
 checks:
@@ -109,39 +90,42 @@ exclude_patterns:
   - "**/test/**"
 ```
 
-## Adding New Checks
+### Writing a custom check
 
-To add a new security check:
-
-1. Create a new Python file in the `checks` directory.
-2. Define a class that inherits from a base check class.
+1. Create a new Python file in the `checks/` directory.
+2. Define a class that inherits from the base check class.
 3. Implement the required methods, including the main `run` method.
-4. Add the new check to the configuration file.
+4. Add the class name to the `checks:` list in your config file.
 
-## Running Tests
+### Running the tests
 
-To run the test suite:
+```bash
+# Unix-like
+./run_tests.sh
 
-On Windows:
-```
+# Windows
 run_tests.bat
 ```
 
-On Unix-like systems:
-```
-./run_tests.sh
-```
+## Roadmap
+
+- [ ] Data-flow / taint analysis (sources to sinks) to cut false positives
+- [ ] SARIF output for GitHub code scanning
+- [ ] JSON output
+- [ ] More checks mapped to the OWASP Top 10 and SAP secure-coding guidance
 
 ## Contributing
 
-Contributions to the ABAP Code Scanner are welcome! Please feel free to submit pull requests, create issues or spread the word.
+Pull requests are welcome - new checks, test cases, bug fixes and docs all help. See [CONTRIBUTING.md](CONTRIBUTING.md) and please follow the OWASP Code of Conduct.
+
+## Security
+
+Found a vulnerability in the scanner itself? Please follow the responsible-disclosure process in [SECURITY.md](SECURITY.md) - do **not** open a public issue for security reports.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+[MIT](LICENSE). Originally contributed and maintained by [RedRays](https://redrays.io/). The web and [SAP BTP](btp-edition.md) editions are commercial products; this OWASP project (the open-source CLI) is free and open source.
 
-## Acknowledgments
+---
 
-- Thanks to all contributors who have helped to improve this framework.
-- Special thanks to the ABAP community for their invaluable resources and documentation.
-
+<div align="center"><sub>An <a href="https://owasp.org/">OWASP</a> Incubator Project.</sub></div>
