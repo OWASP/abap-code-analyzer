@@ -6,7 +6,7 @@ tags: abap sap security btp cloud sast
 
 # ABAP Code Scanner - Cloud Edition for SAP BTP
 
-> The free [open-source CLI](open-source-cli.md) scans **exported** ABAP source offline.
+> The free [open-source CLI](index.md) scans **exported** ABAP source offline.
 > The **Cloud Edition** is a commercial, multi-tenant SaaS by [RedRays](https://redrays.io/) that runs
 > natively on **SAP BTP** and connects directly to your SAP systems - no manual export needed. It builds
 > on the same open-source check engine and adds an 85-check configurable rule catalog, a web UI, dashboards and reporting.

@@ -5,7 +5,7 @@
 # OWASP ABAP Code Scanner
 
 **Static Application Security Testing (SAST) for SAP ABAP.**
-Find security vulnerabilities in custom ABAP code - from a free open-source CLI to a web scanner that connects directly to your SAP systems.
+A free, open-source CLI for finding security vulnerabilities in custom ABAP code - offline and in CI.
 
 [![OWASP Incubator](https://img.shields.io/badge/OWASP-Incubator-blue.svg)](https://owasp.org/projects/)
 [![License: MIT](https://img.shields.io/github/license/OWASP/abap-code-scanner)](LICENSE)
@@ -21,33 +21,19 @@ Find security vulnerabilities in custom ABAP code - from a free open-source CLI 
 
 | Edition | What it is | Where |
 |---|---|---|
-| **Web (newest)** | Web-based ABAP SAST that connects to SAP over JCo / RFC | [Below](#web-version-abap-sast) |
-| **Cloud (SAP BTP)** | SaaS that reads ABAP over BTP destinations | [btp-edition.md](btp-edition.md) |
-| **Open-source CLI** | Free, MIT tool for scanning exported ABAP locally or in CI | [Below](#open-source-cli) |
+| **Open-source CLI** (free, MIT) | Scan exported ABAP source locally or in CI | This repo (below) |
+| **Cloud (SAP BTP)** | Commercial SaaS that reads ABAP over BTP destinations | [Cloud / BTP edition](btp-edition.md) |
+| **Web (Management Console)** | Commercial web SAST that connects to SAP via JCo / RFC | [Web edition](web-edition.md) |
 
-## Web version: ABAP SAST
+The commercial editions are by [RedRays](https://redrays.io/); this OWASP project (the open-source CLI) is free and open source.
 
-The newest version runs as a web application and **connects directly to your SAP systems over SAP JCo (RFC)** - no manual export. It:
+## Why
 
-- organises scans into **projects** (target systems + scan profiles such as *OWASP Top 10* or *Critical issues only*);
-- runs **scheduled scans**;
-- ranks findings by **severity** and **CVSS**, each with a **confidence score** and a plain-language **explanation**;
-- supports **cross-system retest** with full history;
-- exports **reports** for triage and audit;
-- uses **single sign-on and role-based access control**.
+SAP runs on custom **ABAP** code - often millions of lines, written over decades, powering payroll, finance and logistics. That code is rarely security-reviewed and is a frequent source of injection, path-traversal and hard-coded-secret bugs, while standard SAP tooling is heavy and system-bound.
 
-<div align="center">
-  <img src="assets/images/mc/01-projects.png" alt="ABAP SAST - projects overview" width="760">
-  <img src="assets/images/mc/04-finding-detail.png" alt="Finding detail" width="760">
-</div>
+This CLI statically analyses **exported** ABAP source **offline** - no SAP connection, no agent, no telemetry - and writes an XLSX report you can act on. Drop it into CI to gate pull requests.
 
-> The web version is a commercial product by [RedRays](https://redrays.io/). Request a demo or trial at [redrays.io/abap-scanner](https://redrays.io/abap-scanner/).
-
-## Open-source CLI
-
-The free, MIT-licensed CLI is the heart of this OWASP project. It statically analyses **exported** ABAP source **offline** - no SAP connection, no agent, no telemetry - and writes an XLSX report you can act on. Drop it into CI to gate pull requests.
-
-### Quick start
+## Quick start
 
 > Requires **Python 3.9+** and `pip`.
 
@@ -72,7 +58,7 @@ When the scan finishes you will find **`abap_security_scan_report.xlsx`** in the
 | `path` | Directory of ABAP source to scan | _(required)_ |
 | `-c`, `--config` | Path to the YAML config file | `config.yml` |
 
-### Configuration
+## Configuration
 
 The scanner reads a YAML file (default `config.yml`, override with `-c`). Pick the checks to run, the file extensions to include, and patterns to exclude:
 
@@ -90,14 +76,14 @@ exclude_patterns:
   - "**/test/**"
 ```
 
-### Writing a custom check
+## Writing a custom check
 
 1. Create a new Python file in the `checks/` directory.
 2. Define a class that inherits from the base check class.
 3. Implement the required methods, including the main `run` method.
 4. Add the class name to the `checks:` list in your config file.
 
-### Running the tests
+## Running the tests
 
 ```bash
 # Unix-like
@@ -124,7 +110,7 @@ Found a vulnerability in the scanner itself? Please follow the responsible-discl
 
 ## License
 
-[MIT](LICENSE). Originally contributed and maintained by [RedRays](https://redrays.io/). The web and [SAP BTP](btp-edition.md) editions are commercial products; this OWASP project (the open-source CLI) is free and open source.
+[MIT](LICENSE). Originally contributed and maintained by [RedRays](https://redrays.io/). The [Cloud (SAP BTP)](btp-edition.md) and [Web (Management Console)](web-edition.md) editions are commercial products; this OWASP project (the open-source CLI) is free and open source.
 
 ---
 

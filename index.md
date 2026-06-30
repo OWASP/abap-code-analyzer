@@ -4,7 +4,7 @@ title: OWASP ABAP Code Scanner
 tags: abap sap security sast static-analysis code-scanner
 level: 2
 type: tool
-pitch: Static Application Security Testing (SAST) for SAP ABAP - from a free open-source CLI to a web scanner that connects directly to your SAP systems.
+pitch: Static Application Security Testing (SAST) for SAP ABAP - a free, open-source CLI for scanning custom ABAP code.
 ---
 
 [![OWASP Incubator](https://img.shields.io/badge/OWASP-Incubator-blue.svg)](https://owasp.org/projects/)
@@ -14,73 +14,80 @@ pitch: Static Application Security Testing (SAST) for SAP ABAP - from a free ope
 
 ## SAST for SAP ABAP
 
-Custom **ABAP** (Advanced Business Application Programming) code runs the business logic of most SAP systems - and is rarely security-reviewed, making it a common source of injection, path-traversal and hard-coded-secret vulnerabilities.
+SAP systems run on enormous amounts of custom **ABAP** (Advanced Business Application Programming) code that drives payroll, finance, logistics and other business-critical processes. That custom code is rarely security-reviewed and is a common source of injection, path-traversal and hard-coded-secret vulnerabilities.
 
-The **OWASP ABAP Code Scanner** is a **Static Application Security Testing (SAST)** tool that analyses ABAP source code for security vulnerabilities so teams can fix them before they reach production. It is available in editions that share the same scanning engine - the newest connects directly to your SAP systems.
+The **OWASP ABAP Code Scanner** is a **Static Application Security Testing (SAST)** tool for ABAP. The open-source command-line scanner is the heart of this OWASP project: it statically analyses **exported** ABAP source **offline**, needs no connection to your SAP system, and drops straight into a CI/CD pipeline.
 
-## New version: web-based ABAP SAST
+## Editions
 
-The latest version runs as a web application. Instead of exporting code, it **connects directly to your SAP systems over SAP JCo (RFC)** and statically analyses ABAP in place, then presents findings in a modern web UI.
+| Edition | What it is | Where |
+|---|---|---|
+| **Open-source CLI** (free, MIT) | Scan exported ABAP source locally or in CI | This page (below) |
+| **Cloud Edition (SAP BTP)** | Commercial SaaS that reads ABAP over BTP destinations | [Cloud / BTP edition »](btp-edition.md) |
+| **Web (Management Console)** | Commercial web SAST that connects to SAP via SAP JCo / RFC | [Web edition »](web-edition.md) |
 
-<!-- SCREENSHOT 1 -> assets/images/mc/01-projects.png
-     Capture: the ABAP Code Security page - projects list with per-project vulnerability counts. -->
-![ABAP SAST - projects overview](assets/images/mc/01-projects.png)
+All three share the same scanning heritage. The commercial editions are by [RedRays](https://redrays.io/); the OWASP project itself is, and remains, free and open source.
 
-### What it does
+## Why use the open-source CLI
 
-- **Direct SAP connection (SAP JCo / RFC)** - scan ABAP straight from the system; no manual export.
-- **Projects** - organise scans by mapping target **systems** to **scan profiles** (for example *OWASP Top 10* or *Critical issues only*).
-- **Scheduled scans** - run recurring scans automatically.
-- **Vulnerability dashboard** - findings ranked by **severity** and **CVSS**, each with a **confidence score** and a plain-language **explanation**.
-- **Cross-system retest** - re-verify a finding across systems, with full retest history.
-- **Reports & export** - export findings for triage and audit.
-- **Enterprise access** - single sign-on and role-based access control.
+- **Offline and agentless** - scan exported ABAP source on any machine; nothing is sent anywhere.
+- **CI/CD ready** - a simple CLI you can gate your pipeline on.
+- **Extensible** - add your own checks in a few lines of Python.
+- **Actionable reports** - findings exported to XLSX for triage.
+- **Free and open** - MIT-licensed and community-driven.
 
-<!-- SCREENSHOT 2 -> assets/images/mc/02-run-scan.png
-     Capture: creating a project / starting a scan - selecting target system(s) and a scan profile. -->
-![Create a project and run a scan](assets/images/mc/02-run-scan.png)
+## Security checks
 
-### Findings and triage
+The scanner ships with checks for common ABAP security issues, including:
 
-Each finding identifies the affected ABAP object and location, with a severity, a CVSS score, a confidence score and a plain-language explanation, plus a status you manage from the browser.
+| Category | Examples |
+|---|---|
+| Injection | Cross-Site Scripting (XSS), SQL injection, directory traversal |
+| Secrets | Hard-coded credentials and keys |
+| Cryptography | Weak or outdated cryptographic algorithms |
+| Best practices | Insecure dynamic statements, and more |
 
-<!-- SCREENSHOT 3 -> assets/images/mc/03-vulnerabilities.png
-     Capture: the vulnerabilities table - severity, CVSS, status and object columns. -->
-![Vulnerability findings](assets/images/mc/03-vulnerabilities.png)
+Checks are selected per run from a YAML config file, so you can tune the rule set to your code base.
 
-<!-- SCREENSHOT 4 -> assets/images/mc/04-finding-detail.png
-     Capture: a single finding opened - description, severity/CVSS, confidence + explanation, code location, remediation. -->
-![Finding detail](assets/images/mc/04-finding-detail.png)
+## Quick start
 
-### Retest across systems
+```bash
+# 1. Get the tool (Python 3.9+)
+git clone https://github.com/OWASP/abap-code-scanner.git
+cd abap-code-scanner
+pip install -r requirements.txt
 
-Re-run a specific finding against one or more systems to confirm whether it is still present, and keep a history of every retest.
+# 2. Scan a folder of ABAP source
+python main.py path/to/abap/source
+```
 
-<!-- SCREENSHOT 5 -> assets/images/mc/05-retest.png
-     Capture: the cross-system retest dialog and/or the retest history table. -->
-![Cross-system retest with history](assets/images/mc/05-retest.png)
+The scan writes `abap_security_scan_report.xlsx` to the project folder:
 
-### Reporting
+![Example XLSX report](assets/images/screenshot.png)
 
-Export findings to a report for distribution and audit.
+Full configuration, writing custom checks and running the tests are documented in the [README](https://github.com/OWASP/abap-code-scanner#readme).
 
-<!-- SCREENSHOT 6 -> assets/images/mc/06-report.png
-     Capture: an exported report, or the export dialog / scheduled-scans view. -->
-![Export a report](assets/images/mc/06-report.png)
+## Roadmap
 
-### Get access
+- **Data-flow (taint) analysis** - track tainted inputs from sources to sensitive sinks to reduce false positives and catch context-dependent vulnerabilities that simple pattern matching misses.
+- **SARIF output** so findings show up natively in GitHub code scanning.
+- More checks mapped to the OWASP Top 10 and SAP secure-coding guidance.
 
-The web-based version is a commercial product by [RedRays](https://redrays.io/). To request a demo or a trial, visit [redrays.io/abap-scanner](https://redrays.io/abap-scanner/) or contact `support@redrays.io`.
-
-## Other editions
-
-- **Open-source CLI** (free, MIT) - the heart of this OWASP project; scans exported ABAP source locally or in CI. See [the open-source CLI](open-source-cli.md) and the [README](https://github.com/OWASP/abap-code-scanner#readme).
-- **Cloud Edition for SAP BTP** - a SaaS that reads ABAP over BTP destinations. See [the BTP edition](btp-edition.md).
+Contributions to any of these are very welcome.
 
 ## Getting involved
 
-You do not need to be a security expert to help: [open an issue](https://github.com/OWASP/abap-code-scanner/issues) for a bug or a new check idea, or send a pull request. See [CONTRIBUTING.md](https://github.com/OWASP/abap-code-scanner/blob/main/CONTRIBUTING.md).
+You do not need to be a security expert to help:
+
+- Star and share the project.
+- [Open an issue](https://github.com/OWASP/abap-code-scanner/issues) for a bug, a false positive, or a new check idea.
+- Send a pull request - new checks, test cases and docs are all valuable.
+- Say hello on the [OWASP Slack](https://owasp.org/slack/invite).
+
+See [CONTRIBUTING.md](https://github.com/OWASP/abap-code-scanner/blob/main/CONTRIBUTING.md) to get started.
 
 ## Licensing
 
-The OWASP ABAP Code Scanner project (the open-source CLI) is free and released under the [MIT License](https://github.com/OWASP/abap-code-scanner/blob/main/LICENSE). The web-based and BTP editions are commercial products by [RedRays](https://redrays.io/); the OWASP project itself is, and remains, free and open source.
+The OWASP ABAP Code Scanner is free to use and is released under the [MIT License](https://github.com/OWASP/abap-code-scanner/blob/main/LICENSE).
+
+The project was originally contributed and is maintained by [RedRays](https://redrays.io/). Commercial [Cloud (SAP BTP)](btp-edition.md) and [Web (Management Console)](web-edition.md) editions are available separately; the OWASP project is, and remains, free and open source.
